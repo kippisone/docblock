@@ -1,0 +1,17 @@
+{
+  "name": "docblock",
+  "version": "0.0.0",
+  "description": "DocBlock parser",
+  "main": "lib/docBlockParser.js",
+  "scripts": {
+    "test": "mocha -r expect.js --inline-diffs tests/*.spec.js"
+  },
+  "keywords": [
+    "doc",
+    "comment",
+    "docblock",
+    "parser"
+  ],
+  "author": "Andi Heinkelein <andifeind@noname-media.com>",
+  "license": "ISC"
+}

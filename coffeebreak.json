@@ -1,0 +1,8 @@
+{
+    "project": "docblock",
+    "tests": "tests/*.spec.js",
+    "watch": [
+        "lib/*.js",
+        "tests/*.js"
+    ]
+}
