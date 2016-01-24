@@ -1,7 +1,7 @@
 'use strict';
 
 var DocBlockParser = require('../lib/docBlockParser');
-var inspect = require('coffeebreak-inspect');
+var inspect = require('inspect.js');
 var fl = require('node-fl');
 var expect = require('expect.js');
 
@@ -33,16 +33,29 @@ describe('Dockblock parser', function() {
         });
     });
 
-    describe('stripSource', function() {
+    describe.skip('stripSource (obsolete)', function() {
         it('Should strip soucecode', function() {
             var docBlock = new DocBlockParser();
             var source = fl.read(__dirname + '/fixtures/banana.js');
             docBlock.source = source;
             var code = docBlock.stripSource(162);
 
+            inspect.print(code);
+
             inspect(code)
-                .toStartsWith('module.exports = function() {')
-                .toEndsWith('};');
+                .doesStartWith('module.exports = function() {')
+                .doesEndWith('};');
+        });
+    });
+
+    describe('getLine', function() {
+        it('Should strip soucecode', function() {
+            var docBlock = new DocBlockParser();
+            var source = fl.read(__dirname + '/fixtures/banana.js');
+            docBlock.source = source;
+            var line = docBlock.getLine(162);
+
+            inspect(line).isEql(11);
         });
     });
 
@@ -74,11 +87,17 @@ describe('Dockblock parser', function() {
     });
 
     describe('parse', function() {
-        it('Should parse banana.js', function() {
-            var docblock = new DocBlockParser();
-            var result = docblock.parse(fl.read(__dirname + '/fixtures/banana.js'));
+        var docblock;
+        var result;
 
-            inspect(result[0]).toHaveProps({
+        beforeEach(function() {
+            docblock = new DocBlockParser();
+            result = docblock.parse(fl.read(__dirname + '/fixtures/banana.js'), 'js');
+                
+        });
+
+        it('Should parse @module from banana.js', function() {
+            inspect(result[0]).hasProps({
                 title: 'Banana test module',
                 description: 'Very awesome banana module.',
                 tags: {
@@ -103,8 +122,10 @@ describe('Dockblock parser', function() {
                     ' */'
                 ].join('\n')
             });
+        });
 
-            inspect(result[1]).toHaveProps({
+        it('Should parse @const from banana.js', function() {
+            inspect(result[1]).hasProps({
                 title: 'Test constant',
                 description: '',
                 tags: {
@@ -120,8 +141,45 @@ describe('Dockblock parser', function() {
                     '     * Test constant',
                     '     * @const {string}',
                     '     */'
-                ].join('\n'),
-                code: 'var NAME = \'banana\''
+                ].join('\n')
+            });
+        });
+
+        it('Should parse @constructor from banana.js', function() {
+            inspect(result[2]).hasProps({
+                title: 'Banana constructor',
+                description: '',
+                tags: {
+                    constructor: true
+                },
+                pos: 362,
+                raw: [
+                    '/**',
+                    '     * Banana constructor',
+                    '     * @constructor',
+                    '     */'
+                ].join('\n')
+            });
+        });
+
+        it('Should parse @return from banana.js', function() {
+            inspect(result[3]).hasProps({
+                title: 'Tastes method of Banana',
+                description: '',
+                tags: {
+                    'return': {
+                        type: 'string',
+                        description: 'Returns how bananas tastes'
+                    }
+                },
+                pos: 507,
+                raw: [
+                    '/**',
+                    '     * Tastes method of Banana',
+                    '     * ',
+                    '     * @return {string} Returns how bananas tastes',
+                    '     */'
+                ].join('\n')
             });
         });
     });

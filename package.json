@@ -13,5 +13,8 @@
     "parser"
   ],
   "author": "Andi Heinkelein <andifeind@noname-media.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "inspect.js": "0.0.2"
+  }
 }

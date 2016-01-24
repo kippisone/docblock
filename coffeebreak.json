@@ -3,6 +3,7 @@
     "tests": "tests/*.spec.js",
     "watch": [
         "lib/*.js",
+        "lib/rules/*.js",
         "tests/*.js"
     ]
 }

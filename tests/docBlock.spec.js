@@ -1,7 +1,7 @@
 'use strict';
 
 var DocBlock = require('../lib/docBlock');
-var inspect = require('coffeebreak-inspect');
+var inspect = require('inspect.js');
 
 describe('DocBlock', function() {
     
@@ -15,8 +15,8 @@ describe('DocBlock', function() {
                 { tag: 'public', value: '' }
             ];
 
-            var docBlock = new DocBlock().create(docArray);
-            inspect(docBlock).toHaveProps({
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
                 title: 'Test block',
                 description: '',
                 tags: {
@@ -45,8 +45,8 @@ describe('DocBlock', function() {
                 { tag: 'example', value: '    var banana = require(\'banana\');\n    banana.peelIt();' }
             ];
 
-            var docBlock = new DocBlock().create(docArray);
-            inspect(docBlock).toHaveProps({
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
                 title: 'Banana test module',
                 description: 'Very awesome banana module.',
                 tags: {
@@ -64,5 +64,87 @@ describe('DocBlock', function() {
                 }
             });
         });
+
+        it('Should parse @param tags', function() {
+            var docArray = [
+                { tag: 'param', value: '{object|array} obj Input object' },
+                { tag: 'param', value: '{string}    str      Any string' },
+                { tag: 'param', value: '{boolean} bool Must be a boolean' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    params: [
+                        { name: 'obj', type: 'object|array', description: 'Input object' },
+                        { name: 'str', type: 'string', description: 'Any string' },
+                        { name: 'bool', type: 'boolean', description: 'Must be a boolean' }
+                    ]
+                }
+            });
+        });
+
+        it('Should parse @param tags with optional params', function() {
+            var docArray = [
+                { tag: 'param', value: '{object|array} obj Input object' },
+                { tag: 'param', value: '{string}    [str]      Any string' },
+                { tag: 'param', value: '{boolean} [bool=true] Must be a boolean' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    params: [
+                        { name: 'obj', type: 'object|array', description: 'Input object' },
+                        { name: 'str', type: 'string', description: 'Any string', optional: true },
+                        { name: 'bool', type: 'boolean', description: 'Must be a boolean', optional: true, default: 'true' }
+                    ]
+                }
+            });
+        });
+
+        it('Should parse @property tag', function() {
+            var docArray = [
+                { tag: 'property', value: '{object} prop Property description' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    property: {
+                        type: 'object',
+                        name: 'prop',
+                        description: 'Property description'
+                    }
+                }
+            });
+        });
+
+        it('Should parse @method tag', function() {
+            var docArray = [
+                { tag: 'method', value: 'foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    method: 'foo'
+                }
+            });
+        });
+
+        it('Should parse @class tag', function() {
+            var docArray = [
+                { tag: 'class', value: 'foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'class': 'foo'
+                }
+            });
+        });
     });
 });
+
