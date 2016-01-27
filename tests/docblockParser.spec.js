@@ -3,7 +3,6 @@
 var DocBlockParser = require('../lib/docBlockParser');
 var inspect = require('inspect.js');
 var fl = require('node-fl');
-var expect = require('expect.js');
 
 describe('Dockblock parser', function() {
     describe('stripBlockLines', function() {
@@ -21,7 +20,7 @@ describe('Dockblock parser', function() {
             var docblock = new DocBlockParser();
             var lines = docblock.stripBlockLines(block);
             
-            expect(lines).to.eql([
+            inspect(lines).isEql([
                 ' Test block',
                 ' ',
                 ' @module testmodule',

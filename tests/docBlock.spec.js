@@ -133,6 +133,19 @@ describe('DocBlock', function() {
             });
         });
 
+        it('Should parse @function tag', function() {
+            var docArray = [
+                { tag: 'function', value: 'foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'function': 'foo'
+                }
+            });
+        });
+
         it('Should parse @class tag', function() {
             var docArray = [
                 { tag: 'class', value: 'foo' }
@@ -142,6 +155,119 @@ describe('DocBlock', function() {
             inspect(docBlock).hasProps({
                 tags: {
                     'class': 'foo'
+                }
+            });
+        });
+
+        it.skip('Should parse @const tag', function() {
+            var docArray = [
+                { tag: 'const', value: 'FOO' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'const': 'FOO'
+                }
+            });
+        });
+
+        it('Should parse @constructor tag', function() {
+            var docArray = [
+                { tag: 'constructor', value: 'Foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'constructor': 'Foo'
+                }
+            });
+        });
+
+        it('Should parse @return tag', function() {
+            var docArray = [
+                { tag: 'return', value: '{object} Returns foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'return': {
+                        type: 'object',
+                        description: 'Returns foo'
+                    }
+                }
+            });
+        });
+
+        it('Should parse @returns tag', function() {
+            var docArray = [
+                { tag: 'returns', value: '{object} Returns foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'return': {
+                        type: 'object',
+                        description: 'Returns foo'
+                    }
+                }
+            });
+        });
+
+        it('Should parse @default tag', function() {
+            var docArray = [
+                { tag: 'default', value: '{object} Returns foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'default': {
+                        type: 'object',
+                        description: 'Returns foo'
+                    }
+                }
+            });
+        });
+
+        it('Should parse @event tag', function() {
+            var docArray = [
+                { tag: 'event', value: 'foo.bar' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'event': {
+                        name: 'foo.bar'
+                    }
+                }
+            });
+        });
+
+        it('Should parse @fires tag', function() {
+            var docArray = [
+                { tag: 'fires', value: 'foo.bar' },
+                { tag: 'arg', value: '{object} foo Foo object' },
+                { tag: 'arg', value: '{boolean} isBar Is bar?' },
+                { tag: 'arg', value: '{string} [msg] Optional message' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock.tags.fires).isArray();
+            inspect(docBlock).hasProps({
+                tags: {
+                    'fires': [{
+                        'event': 'foo.bar',
+                        args: [
+                            { type: 'object', name: 'foo', description: 'Foo object' },
+                            { type: 'boolean', name: 'isBar', description: 'Is bar?' },
+                            { type: 'string', optional: true, name: 'msg', description: 'Optional message' }
+                        ]
+                    }]
                 }
             });
         });

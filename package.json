@@ -16,5 +16,8 @@
   "license": "ISC",
   "devDependencies": {
     "inspect.js": "0.0.2"
+  },
+  "dependencies": {
+    "node-fl": "0.0.2"
   }
 }
