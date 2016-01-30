@@ -133,6 +133,58 @@ describe('DocBlock', function() {
             });
         });
 
+        it('Should parse @module tag', function() {
+            var docArray = [
+                { tag: 'module', value: 'foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    module: 'foo'
+                }
+            });
+        });
+
+        it('Should parse @submodule tag', function() {
+            var docArray = [
+                { tag: 'submodule', value: 'foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    submodule: 'foo'
+                }
+            });
+        });
+
+        it('Should parse @package tag', function() {
+            var docArray = [
+                { tag: 'package', value: 'foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    'package': 'foo'
+                }
+            });
+        });
+
+        it('Should parse @subpackage tag', function() {
+            var docArray = [
+                { tag: 'subpackage', value: 'foo' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    subpackage: 'foo'
+                }
+            });
+        });
+
         it('Should parse @function tag', function() {
             var docArray = [
                 { tag: 'function', value: 'foo' }
@@ -159,7 +211,7 @@ describe('DocBlock', function() {
             });
         });
 
-        it.skip('Should parse @const tag', function() {
+        it('Should parse @const tag', function() {
             var docArray = [
                 { tag: 'const', value: 'FOO' }
             ];
@@ -167,7 +219,9 @@ describe('DocBlock', function() {
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
                 tags: {
-                    'const': 'FOO'
+                    'const': {
+                        name: 'FOO'
+                    }
                 }
             });
         });
