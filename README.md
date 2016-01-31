@@ -2,7 +2,7 @@ DocBlock
 ========
 
 A powerfull docblock parser for comment blocks. DocBlock isn't tethered to any language.
-It parses only docblocks and returns the result as a JSON object.
+It simply parses docblocks and returns the result as a JSON object.
 
 
 

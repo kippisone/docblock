@@ -4,7 +4,7 @@
   "description": "DocBlock parser",
   "main": "lib/docBlockParser.js",
   "scripts": {
-    "test": "mocha -r expect.js --inline-diffs tests/*.spec.js"
+    "test": "mocha --recursive --inline-diffs tests/"
   },
   "keywords": [
     "doc",
