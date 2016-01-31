@@ -75,7 +75,7 @@ describe('Dockblock parser', function() {
             var docblock = new DocBlockParser();
             var lines = docblock.parseTags(block);
             
-            expect(lines).to.be.eql([
+            inspect(lines).isEql([
                 { tag: 'title', value: 'Test block' },
                 { tag: 'description', value: 'With description\nas second block' },
                 { tag: 'module', value: 'testmodule' },

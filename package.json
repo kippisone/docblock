@@ -1,10 +1,10 @@
 {
   "name": "docblock",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "description": "DocBlock parser",
   "main": "lib/docBlockParser.js",
   "scripts": {
-    "test": "mocha -r expect.js --inline-diffs tests/*.spec.js"
+    "test": "mocha --recursive --inline-diffs tests/"
   },
   "keywords": [
     "doc",
@@ -13,11 +13,23 @@
     "parser"
   ],
   "author": "Andi Heinkelein <andifeind@noname-media.com>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "inspect.js": "0.0.2"
   },
   "dependencies": {
     "node-fl": "0.0.2"
-  }
+  },
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Andifeind/docblock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Andifeind/docblock/issues"
+  },
+  "homepage": "https://github.com/Andifeind/docblock#readme"
 }
