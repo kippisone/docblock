@@ -13,11 +13,23 @@
     "parser"
   ],
   "author": "Andi Heinkelein <andifeind@noname-media.com>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "inspect.js": "0.0.2"
   },
   "dependencies": {
     "node-fl": "0.0.2"
-  }
+  },
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Andifeind/docblock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Andifeind/docblock/issues"
+  },
+  "homepage": "https://github.com/Andifeind/docblock#readme"
 }
