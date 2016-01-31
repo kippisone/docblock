@@ -149,7 +149,7 @@ describe('Dockblock parser', function() {
                 title: 'Banana constructor',
                 description: '',
                 tags: {
-                    constructor: true
+                    constructor: 'Banana'
                 },
                 pos: 362,
                 raw: [
@@ -166,7 +166,7 @@ describe('Dockblock parser', function() {
                 title: 'Tastes method of Banana',
                 description: '',
                 tags: {
-                    'return': {
+                    'returns': {
                         type: 'string',
                         description: 'Returns how bananas tastes'
                     }
