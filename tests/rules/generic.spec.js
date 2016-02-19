@@ -64,9 +64,7 @@ describe('Generic rules', function() {
 
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
-                tags: {
-                    group: 'foo'
-                }
+                group: 'foo'
             });
         });
 
@@ -77,9 +75,7 @@ describe('Generic rules', function() {
 
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
-                tags: {
-                    group: 'Foo group'
-                }
+                group: 'Foo group'
             });
         });
 
@@ -90,9 +86,7 @@ describe('Generic rules', function() {
 
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
-                tags: {
-                    name: 'foo'
-                }
+                name: 'foo'
             });
         });
 
