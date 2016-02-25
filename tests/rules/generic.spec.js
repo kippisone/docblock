@@ -128,7 +128,7 @@ describe('Generic rules', function() {
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
                 tags: {
-                    unimplemented: true
+                    isUnimplemented: true
                 }
             });
         });
@@ -141,7 +141,7 @@ describe('Generic rules', function() {
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
                 tags: {
-                    beta: true
+                    isBeta: true
                 }
             });
         });
@@ -154,7 +154,7 @@ describe('Generic rules', function() {
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
                 tags: {
-                    new: true
+                    isNew: true
                 }
             });
         });
