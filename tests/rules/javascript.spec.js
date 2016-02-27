@@ -230,16 +230,13 @@ describe('Javascript rules', function() {
 
         it('Should parse a @default tag', function() {
             var docArray = [
-                { tag: 'default', value: '{object} Returns foo' }
+                { tag: 'default', value: 'Returns foo' }
             ];
 
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
                 tags: {
-                    'default': {
-                        type: 'object',
-                        description: 'Returns foo'
-                    }
+                    'default':  'Returns foo'
                 }
             });
         });
@@ -363,7 +360,7 @@ describe('Javascript rules', function() {
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
                 tags: {
-                    async: true
+                    isAsync: true
                 }
             });
         });
@@ -376,7 +373,7 @@ describe('Javascript rules', function() {
             var docBlock = new DocBlock('js').create(docArray);
             inspect(docBlock).hasProps({
                 tags: {
-                    static: true
+                    isStatic: true
                 }
             });
         });
