@@ -99,3 +99,13 @@ The result looks like:
 ]
 
 ```
+
+### Parse markdown
+
+Docblock parse markdown per default. Makrdown aprsing can be disabled by setting the skipMarkdown option
+
+```js
+var docblock = new DocBlock({
+    skipMarkdown: true
+});
+```

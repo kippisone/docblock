@@ -188,9 +188,7 @@ describe('Dockblock parser', function() {
         let docblock;
 
         beforeEach(function() {
-            docblock = new DocBlockParser({
-                markdown: true
-            });
+            docblock = new DocBlockParser();
 
             code.push({
                 title: 'Great *title* with **Markdown**',
