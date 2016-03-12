@@ -182,4 +182,65 @@ describe('Dockblock parser', function() {
             });
         });
     });
+
+    describe('parseMarkdown', function() {
+        let code = [];
+        let docblock;
+
+        beforeEach(function() {
+            docblock = new DocBlockParser();
+
+            code.push({
+                title: 'Great *title* with **Markdown**',
+                description: 'A description body with more *Markdown*\n and a few\n line breaks.',
+                raw: 'Great *title* with **Markdown**\n \n A description body with more *Markdown*\n and a few\n line breaks.'
+            }, {
+                title: 'Great *title* with **Markdown**',
+                description: 'A description body with more *Markdown*\n and a few\n line breaks.',
+                params:[
+                    {
+                        type: 'boolean',
+                        name: 'foo',
+                        description: 'First *arg*'
+                    }, {
+                        type: 'boolean',
+                        name: 'bar',
+                        description: 'Second *arg*'
+                    }
+                ],
+                raw: 'Great *title* with **Markdown**\n \n A description body with more *Markdown*\n and a few\n line breaks.'
+            });
+        });
+
+        it('Should parse markdown in specific tags', function() {
+            let md = docblock.parseMarkdown(code[0]);
+            inspect.print(md);
+            inspect(md).isEql({
+                title: 'Great <em>title</em> with <strong>Markdown</strong>',
+                description: 'A description body with more <em>Markdown</em>\n and a few\n line breaks.',
+                raw: 'Great *title* with **Markdown**\n \n A description body with more *Markdown*\n and a few\n line breaks.'
+            });
+        });
+
+        it('Should parse markdown in specific tags', function() {
+            let md = docblock.parseMarkdown(code[1]);
+            inspect.print(md);
+            inspect(md).isEql({
+                title: 'Great <em>title</em> with <strong>Markdown</strong>',
+                description: 'A description body with more <em>Markdown</em>\n and a few\n line breaks.',
+                params: [
+                    {
+                        type: 'boolean',
+                        name: 'foo',
+                        description: 'First <em>arg</em>'
+                    }, {
+                        type: 'boolean',
+                        name: 'bar',
+                        description: 'Second <em>arg</em>'
+                    }
+                ],
+                raw: 'Great *title* with **Markdown**\n \n A description body with more *Markdown*\n and a few\n line breaks.'
+            });
+        });
+    });
 });
