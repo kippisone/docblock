@@ -1,6 +1,6 @@
 {
   "name": "docblock",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "DocBlock parser",
   "main": "lib/docBlockParser.js",
   "scripts": {
