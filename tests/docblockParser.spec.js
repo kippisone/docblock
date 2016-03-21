@@ -12,21 +12,25 @@ describe('Dockblock parser', function() {
                 ' * ',
                 ' * @module testmodule',
                 ' * @param {object} foo Foo is footastic',
-                ' *',
+                ' * ',
                 ' * @public',
+                ' * @review {html}',
+                ' * <div>Preview</div>',
                 ' *'
             ].join('\n');
 
             var docblock = new DocBlockParser();
             var lines = docblock.stripBlockLines(block);
-            
+
             inspect(lines).isEql([
                 ' Test block',
                 ' ',
                 ' @module testmodule',
                 ' @param {object} foo Foo is footastic',
-                '',
+                ' ',
                 ' @public',
+                ' @review {html}',
+                ' <div>Preview</div>',
                 ''
             ]);
         });
@@ -67,20 +71,53 @@ describe('Dockblock parser', function() {
                 ' * as second block',
                 ' * @module testmodule',
                 ' * @param {object} foo Foo is footastic',
-                ' *',
+                ' * ',
                 ' * @public',
+                ' * @preview {html}',
+                ' * <div>Preview</div>',
+                ' * <span>Subline</span>',
                 ' *'
             ].join('\n');
 
             var docblock = new DocBlockParser();
             var lines = docblock.parseTags(block);
-            
+
             inspect(lines).isEql([
                 { tag: 'title', value: 'Test block' },
                 { tag: 'description', value: 'With description\nas second block' },
                 { tag: 'module', value: 'testmodule' },
                 { tag: 'param', value: '{object} foo Foo is footastic' },
-                { tag: 'public', value: '' }
+                { tag: 'public', value: '' },
+                { tag: 'preview', value: '{html}\n<div>Preview</div>\n<span>Subline</span>' }
+            ]);
+        });
+
+        it('Should strip lines from a DocBlock, no spaces on end of line', function() {
+            var block = [
+                ' * Test block',
+                ' *',
+                ' * With description',
+                ' * as second block',
+                ' * @module testmodule',
+                ' * @param {object} foo Foo is footastic',
+                ' *',
+                ' * @public',
+                ' * @preview {html}',
+                ' * <div>Preview</div>',
+                ' * <span>Subline</span>',
+                ' *'
+            ].join('\n');
+
+            var docblock = new DocBlockParser();
+            var lines = docblock.parseTags(block);
+
+            inspect(lines).isEql([
+                { tag: 'title', value: 'Test block' },
+                { tag: 'description', value: 'With description\nas second block' },
+                { tag: 'module', value: 'testmodule' },
+                { tag: 'param', value: '{object} foo Foo is footastic' },
+                { tag: 'public', value: '' },
+                { tag: 'preview', value: '{html}\n<div>Preview</div>\n<span>Subline</span>' }
             ]);
         });
     });
@@ -92,7 +129,7 @@ describe('Dockblock parser', function() {
         beforeEach(function() {
             docblock = new DocBlockParser();
             result = docblock.parse(fl.read(__dirname + '/fixtures/banana.js'), 'js');
-                
+
         });
 
         it('Should parse @module from banana.js', function() {
