@@ -41,7 +41,7 @@ describe('DocBlock', function() {
                 { tag: 'title', value: 'Banana test module' },
                 { tag: 'description', value: 'Very awesome banana module.' },
                 { tag: 'module', value: 'banana' },
-                { tag: 'example', value: '    var banana = require(\'banana\');\n    banana.peelIt();' }
+                { tag: 'example', value: 'var banana = require(\'banana\');\nbanana.peelIt();' }
             ];
 
             var docBlock = new DocBlock('js').create(docArray);
@@ -52,7 +52,7 @@ describe('DocBlock', function() {
                     module: 'banana',
                     examples: [
                         {
-                            content: '    var banana = require(\'banana\');\n    banana.peelIt();'
+                            content: 'var banana = require(\'banana\');\nbanana.peelIt();'
                         }
                     ],
                     isPublic: false,
@@ -63,6 +63,5 @@ describe('DocBlock', function() {
                 }
             });
         });
-    });    
+    });
 });
-

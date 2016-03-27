@@ -3,7 +3,7 @@
 var DocBlock = require('../../lib/docBlock');
 var inspect = require('inspect.js');
 
-describe('Generic rules', function() {    
+describe('Generic rules', function() {
     describe('tags', function() {
         it('Should parse @module tag', function() {
             var docArray = [
@@ -188,6 +188,40 @@ describe('Generic rules', function() {
             inspect(docBlock).hasProps({
                 tags: {
                     ignore: true
+                }
+            });
+        });
+
+        it('Should parse an @preview tag', function() {
+            var docArray = [
+                { tag: 'preview', value: '{js}\n<div>Preview</div>' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    previews: [{
+                        type: 'js',
+                        name: '',
+                        html: '<div>Preview</div>'
+                    }]
+                }
+            });
+        });
+
+        it('Should parse a multiline @preview tag', function() {
+            var docArray = [
+                { tag: 'preview', value: '{js}\n<div>Preview</div>\n<span>Subline</span>' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    previews: [{
+                        type: 'js',
+                        name: '',
+                        html: '<div>Preview</div>\n<span>Subline</span>'
+                    }]
                 }
             });
         });

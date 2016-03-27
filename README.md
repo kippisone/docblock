@@ -17,12 +17,12 @@ It simply parses docblocks and returns the result as a JSON object.
  * @constructor
  */
 var Banana = function() {
-    
+
 }
 
 /**
  * DocBlock comment
- * 
+ *
  * @method peelIt
  * @chainable
  * @param {string} startPoint Sets the peeling start point.
@@ -102,7 +102,7 @@ The result looks like:
 
 ### Parse markdown
 
-Docblock parse markdown per default. Makrdown aprsing can be disabled by setting the skipMarkdown option
+Docblock parse markdown per default. Markdown parsing can be disabled by setting the skipMarkdown option
 
 ```js
 var docblock = new DocBlock({

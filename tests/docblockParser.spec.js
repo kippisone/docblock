@@ -12,38 +12,27 @@ describe('Dockblock parser', function() {
                 ' * ',
                 ' * @module testmodule',
                 ' * @param {object} foo Foo is footastic',
-                ' *',
+                ' * ',
                 ' * @public',
+                ' * @review {html}',
+                ' * <div>Preview</div>',
                 ' *'
             ].join('\n');
 
             var docblock = new DocBlockParser();
             var lines = docblock.stripBlockLines(block);
-            
+
             inspect(lines).isEql([
                 ' Test block',
                 ' ',
                 ' @module testmodule',
                 ' @param {object} foo Foo is footastic',
-                '',
+                ' ',
                 ' @public',
+                ' @review {html}',
+                ' <div>Preview</div>',
                 ''
             ]);
-        });
-    });
-
-    describe.skip('stripSource (obsolete)', function() {
-        it('Should strip soucecode', function() {
-            var docBlock = new DocBlockParser();
-            var source = fl.read(__dirname + '/fixtures/banana.js');
-            docBlock.source = source;
-            var code = docBlock.stripSource(162);
-
-            inspect.print(code);
-
-            inspect(code)
-                .doesStartWith('module.exports = function() {')
-                .doesEndWith('};');
         });
     });
 
@@ -58,6 +47,94 @@ describe('Dockblock parser', function() {
         });
     });
 
+    describe('undentCode', function() {
+        var docBlock;
+
+        beforeEach(function() {
+            docBlock = new DocBlockParser();
+        });
+
+        it('Should undent code', function() {
+            var code = '    var foo = \'bar\';';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql('var foo = \'bar\';');
+        });
+
+        it('Should undent code, using tabs', function() {
+            var code = '\tvar foo = \'bar\';';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql('var foo = \'bar\';');
+        });
+
+        it('Should undent code, one liner without indention', function() {
+            var code = 'var foo = \'bar\';';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql('var foo = \'bar\';');
+        });
+
+        it('Should undent code, strip outdented code', function() {
+            var code =
+                '    var foo = function() {\n' +
+                '        var bla = 1;\n' +
+                '    };\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '    var bla = 1;\n' +
+              '};'
+            );
+        });
+
+        it('Should undent code, strip outdented code, using tabs', function() {
+            var code =
+                '\tvar foo = function() {\n' +
+                '\t\tvar bla = 1;\n' +
+                '\t};\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '\tvar bla = 1;\n' +
+              '};'
+            );
+        });
+
+        it('Should undent code, first line hasn\'t any indention', function() {
+            var code =
+                'var foo = function() {\n' +
+                '    var bla = 1;\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '    var bla = 1;\n' +
+              '};'
+            );
+        });
+
+        it('Should undent code, first line hasn\'t any indention, using tabs', function() {
+            var code =
+                'var foo = function() {\n' +
+                '\tvar bla = 1;\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '\tvar bla = 1;\n' +
+              '};'
+            );
+        });
+    });
+
     describe('parseTags', function() {
         it('Should strip lines from a DocBlock', function() {
             var block = [
@@ -67,20 +144,53 @@ describe('Dockblock parser', function() {
                 ' * as second block',
                 ' * @module testmodule',
                 ' * @param {object} foo Foo is footastic',
-                ' *',
+                ' * ',
                 ' * @public',
+                ' * @preview {html}',
+                ' * <div>Preview</div>',
+                ' * <span>Subline</span>',
                 ' *'
             ].join('\n');
 
             var docblock = new DocBlockParser();
             var lines = docblock.parseTags(block);
-            
+
             inspect(lines).isEql([
                 { tag: 'title', value: 'Test block' },
                 { tag: 'description', value: 'With description\nas second block' },
                 { tag: 'module', value: 'testmodule' },
                 { tag: 'param', value: '{object} foo Foo is footastic' },
-                { tag: 'public', value: '' }
+                { tag: 'public', value: '' },
+                { tag: 'preview', value: '{html}\n<div>Preview</div>\n<span>Subline</span>' }
+            ]);
+        });
+
+        it('Should strip lines from a DocBlock, no spaces on end of line', function() {
+            var block = [
+                ' * Test block',
+                ' *',
+                ' * With description',
+                ' * as second block',
+                ' * @module testmodule',
+                ' * @param {object} foo Foo is footastic',
+                ' *',
+                ' * @public',
+                ' * @preview {html}',
+                ' * <div>Preview</div>',
+                ' * <span>Subline</span>',
+                ' *'
+            ].join('\n');
+
+            var docblock = new DocBlockParser();
+            var lines = docblock.parseTags(block);
+
+            inspect(lines).isEql([
+                { tag: 'title', value: 'Test block' },
+                { tag: 'description', value: 'With description\nas second block' },
+                { tag: 'module', value: 'testmodule' },
+                { tag: 'param', value: '{object} foo Foo is footastic' },
+                { tag: 'public', value: '' },
+                { tag: 'preview', value: '{html}\n<div>Preview</div>\n<span>Subline</span>' }
             ]);
         });
     });
@@ -92,7 +202,7 @@ describe('Dockblock parser', function() {
         beforeEach(function() {
             docblock = new DocBlockParser();
             result = docblock.parse(fl.read(__dirname + '/fixtures/banana.js'), 'js');
-                
+
         });
 
         it('Should parse @module from banana.js', function() {
@@ -214,7 +324,6 @@ describe('Dockblock parser', function() {
 
         it('Should parse markdown in specific tags', function() {
             let md = docblock.parseMarkdown(code[0]);
-            inspect.print(md);
             inspect(md).isEql({
                 title: 'Great <em>title</em> with <strong>Markdown</strong>',
                 description: 'A description body with more <em>Markdown</em>\n and a few\n line breaks.',
@@ -224,7 +333,6 @@ describe('Dockblock parser', function() {
 
         it('Should parse markdown in specific tags', function() {
             let md = docblock.parseMarkdown(code[1]);
-            inspect.print(md);
             inspect(md).isEql({
                 title: 'Great <em>title</em> with <strong>Markdown</strong>',
                 description: 'A description body with more <em>Markdown</em>\n and a few\n line breaks.',
