@@ -36,21 +36,6 @@ describe('Dockblock parser', function() {
         });
     });
 
-    describe.skip('stripSource (obsolete)', function() {
-        it('Should strip soucecode', function() {
-            var docBlock = new DocBlockParser();
-            var source = fl.read(__dirname + '/fixtures/banana.js');
-            docBlock.source = source;
-            var code = docBlock.stripSource(162);
-
-            inspect.print(code);
-
-            inspect(code)
-                .doesStartWith('module.exports = function() {')
-                .doesEndWith('};');
-        });
-    });
-
     describe('getLine', function() {
         it('Should strip soucecode', function() {
             var docBlock = new DocBlockParser();
@@ -59,6 +44,94 @@ describe('Dockblock parser', function() {
             var line = docBlock.getLine(162);
 
             inspect(line).isEql(11);
+        });
+    });
+
+    describe('undentCode', function() {
+        var docBlock;
+
+        beforeEach(function() {
+            docBlock = new DocBlockParser();
+        });
+
+        it('Should undent code', function() {
+            var code = '    var foo = \'bar\';';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql('var foo = \'bar\';');
+        });
+
+        it('Should undent code, using tabs', function() {
+            var code = '\tvar foo = \'bar\';';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql('var foo = \'bar\';');
+        });
+
+        it('Should undent code, one liner without indention', function() {
+            var code = 'var foo = \'bar\';';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql('var foo = \'bar\';');
+        });
+
+        it('Should undent code, strip outdented code', function() {
+            var code =
+                '    var foo = function() {\n' +
+                '        var bla = 1;\n' +
+                '    };\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '    var bla = 1;\n' +
+              '};'
+            );
+        });
+
+        it('Should undent code, strip outdented code, using tabs', function() {
+            var code =
+                '\tvar foo = function() {\n' +
+                '\t\tvar bla = 1;\n' +
+                '\t};\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '\tvar bla = 1;\n' +
+              '};'
+            );
+        });
+
+        it('Should undent code, first line hasn\'t any indention', function() {
+            var code =
+                'var foo = function() {\n' +
+                '    var bla = 1;\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '    var bla = 1;\n' +
+              '};'
+            );
+        });
+
+        it('Should undent code, first line hasn\'t any indention, using tabs', function() {
+            var code =
+                'var foo = function() {\n' +
+                '\tvar bla = 1;\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '\tvar bla = 1;\n' +
+              '};'
+            );
         });
     });
 
@@ -251,7 +324,6 @@ describe('Dockblock parser', function() {
 
         it('Should parse markdown in specific tags', function() {
             let md = docblock.parseMarkdown(code[0]);
-            inspect.print(md);
             inspect(md).isEql({
                 title: 'Great <em>title</em> with <strong>Markdown</strong>',
                 description: 'A description body with more <em>Markdown</em>\n and a few\n line breaks.',
@@ -261,7 +333,6 @@ describe('Dockblock parser', function() {
 
         it('Should parse markdown in specific tags', function() {
             let md = docblock.parseMarkdown(code[1]);
-            inspect.print(md);
             inspect(md).isEql({
                 title: 'Great <em>title</em> with <strong>Markdown</strong>',
                 description: 'A description body with more <em>Markdown</em>\n and a few\n line breaks.',
