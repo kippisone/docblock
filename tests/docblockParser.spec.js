@@ -133,6 +133,42 @@ describe('Dockblock parser', function() {
               '};'
             );
         });
+
+        it('Should undent code and should keep empty lines', function() {
+            var code =
+                'var foo = function() {\n' +
+                '    var bla = 1;\n' +
+                '\n' +
+                '\n' +
+                '    return bla;\n' +
+                '};\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '    var bla = 1;\n' +
+              '\n' +
+              '\n' +
+              '    return bla;\n' +
+              '};'
+            );
+        });
+
+        it('Should undent code and should keep empty lines in an empty function', function() {
+            var code =
+                '  var foo = function() {\n' +
+                '\n' +
+                '  };\n' +
+                '\n' +
+                '\n';
+            var undented = docBlock.undentCode(code);
+            inspect(undented).isEql(
+              'var foo = function() {\n' +
+              '\n' +
+              '};'
+            );
+        });
     });
 
     describe('parseTags', function() {
