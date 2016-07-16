@@ -441,7 +441,6 @@ describe('Javascript rules', function() {
 
     var docBlock = new DocBlock('js').create(docArray);
     inspect(docBlock.tags.headers).isArray();
-    inspect.print(docBlock);
     inspect(docBlock).hasProps({
       tags: {
         headers: [
