@@ -63,5 +63,44 @@ describe('DocBlock', function() {
                 }
             });
         });
+
+        it('Should handle inline tags', function() {
+            var docArray = [
+                { tag: 'title', value: 'Banana test module' },
+                { tag: 'description', value: 'Very awesome banana module.' },
+                { tag: 'module', value: 'banana' },
+                { tag: 'preview', value: '\n<b>Text in bold</b>' },
+                { tag: 'example', value: '\n@{tag.preview}' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).isEql({
+                title: 'Banana test module',
+                description: 'Very awesome banana module.',
+                tags: {
+                    module: 'banana',
+                    examples: [
+                        {
+                            content: '<b>Text in bold</b>',
+                            title: '',
+                            type: ''
+                        }
+                    ],
+                    previews: [
+                        {
+                            type: 'html',
+                            name: '',
+                            html: '<b>Text in bold</b>'
+                        }
+                    ],
+                    isPublic: false,
+                    isProtected: false,
+                    isPrivate: false,
+                    isDeprecated: false,
+                    ignore: false
+                },
+                code: ''
+            });
+        });
     });
 });
