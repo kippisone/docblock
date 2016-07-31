@@ -192,8 +192,8 @@ describe('Dockblock parser', function() {
             var lines = docblock.parseTags(block);
 
             inspect(lines).isEql([
-                { tag: 'title', value: 'Test block' },
-                { tag: 'description', value: 'With description\nas second block' },
+                { tag: 'title', value: '\nTest block' },
+                { tag: 'description', value: '\nWith description\nas second block' },
                 { tag: 'module', value: 'testmodule' },
                 { tag: 'param', value: '{object} foo Foo is footastic' },
                 { tag: 'public', value: '' },
@@ -221,12 +221,41 @@ describe('Dockblock parser', function() {
             var lines = docblock.parseTags(block);
 
             inspect(lines).isEql([
-                { tag: 'title', value: 'Test block' },
-                { tag: 'description', value: 'With description\nas second block' },
+                { tag: 'title', value: '\nTest block' },
+                { tag: 'description', value: '\nWith description\nas second block' },
                 { tag: 'module', value: 'testmodule' },
                 { tag: 'param', value: '{object} foo Foo is footastic' },
                 { tag: 'public', value: '' },
                 { tag: 'preview', value: '{html}\n<div>Preview</div>\n<span>Subline</span>' }
+            ]);
+        });
+
+        it('Should strip lines from a DocBlock, no spaces on end of line, should keep new lines in block tags', function() {
+            var block = [
+                ' * Test block',
+                ' *',
+                ' * With description',
+                ' * as second block',
+                ' * @module testmodule',
+                ' * @param {object} foo Foo is footastic',
+                ' *',
+                ' * @public',
+                ' * @preview',
+                ' * <div>Preview</div>',
+                ' * <span>Subline</span>',
+                ' *'
+            ].join('\n');
+
+            var docblock = new DocBlockParser();
+            var lines = docblock.parseTags(block);
+
+            inspect(lines).isEql([
+                { tag: 'title', value: '\nTest block' },
+                { tag: 'description', value: '\nWith description\nas second block' },
+                { tag: 'module', value: 'testmodule' },
+                { tag: 'param', value: '{object} foo Foo is footastic' },
+                { tag: 'public', value: '' },
+                { tag: 'preview', value: '\n<div>Preview</div>\n<span>Subline</span>' }
             ]);
         });
     });
