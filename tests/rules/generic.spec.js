@@ -225,5 +225,22 @@ describe('Generic rules', function() {
                 }
             });
         });
+
+        it('Should parse an @preview tag without type and name', function() {
+            var docArray = [
+                { tag: 'preview', value: '\n<div>Preview</div>' }
+            ];
+
+            var docBlock = new DocBlock('js').create(docArray);
+            inspect(docBlock).hasProps({
+                tags: {
+                    previews: [{
+                        type: 'js',
+                        name: '',
+                        html: '<div>Preview</div>'
+                    }]
+                }
+            });
+        });
     });
 });
