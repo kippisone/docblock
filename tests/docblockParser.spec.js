@@ -23,14 +23,14 @@ describe('Dockblock parser', function() {
       var lines = docblock.stripBlockLines(block);
 
       inspect(lines).isEql([
-        ' Test block',
-        ' ',
-        ' @module testmodule',
-        ' @param {object} foo Foo is footastic',
-        ' ',
-        ' @public',
-        ' @review {html}',
-        ' <div>Preview</div>',
+        'Test block',
+        '',
+        '@module testmodule',
+        '@param {object} foo Foo is footastic',
+        '',
+        '@public',
+        '@review {html}',
+        '<div>Preview</div>',
         ''
       ]);
     });
@@ -256,6 +256,33 @@ describe('Dockblock parser', function() {
         { tag: 'param', value: '{object} foo Foo is footastic' },
         { tag: 'public', value: '' },
         { tag: 'preview', value: '\n<div>Preview</div>\n<span>Subline</span>' }
+      ]);
+    });
+
+    it('Should keep inline commnets', function() {
+      var block = [
+        ' * Test block',
+        ' *',
+        ' * @module testmodule',
+        ' *',
+        ' * @public',
+        ' * @example',
+        ' * /**',
+        ' *  * Test comment',
+        ' *  * \\@name testblock',
+        ' *  *\/',
+        ' *'
+      ].join('\n');
+
+      var docblock = new DocBlockParser();
+      var lines = docblock.parseTags(block);
+
+      inspect(lines).isEql([
+        { tag: 'title', value: '\nTest block' },
+        { tag: 'description', value: '' },
+        { tag: 'module', value: 'testmodule' },
+        { tag: 'public', value: '' },
+        { tag: 'example', value: '\n/**\n * Test comment\n * @name testblock\n */' }
       ]);
     });
   });
