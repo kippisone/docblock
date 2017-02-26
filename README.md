@@ -1,6 +1,8 @@
 DocBlock
 ========
 
+[![Build Status](https://travis-ci.org/Andifeind/docblock.svg?branch=master)](https://travis-ci.org/Andifeind/docblock)
+
 A powerfull docblock parser for comment blocks. DocBlock isn't tethered to any language.
 It simply parses docblocks and returns the result as a JSON object.
 
