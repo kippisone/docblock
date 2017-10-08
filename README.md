@@ -109,3 +109,16 @@ var docblock = new DocBlock({
     skipMarkdown: true
 });
 ```
+
+### Rules
+
+DockBlock parse all comment blocks per default. The common rules defined in `lib/rules/all.js`.It comes with 2 predefined programming languages. If you look into `lib/rules/` there are predefined rules for Javascript and Styles like CSS/LESS/SASS.
+These rules are extended rules, they only get load if the second type argument is set in `parse()`.
+
+```js
+const dockBlock = new DocBlock()
+dockBlock.parse(source, 'js')
+```
+
+This would enable the extended Javascript parsing. The difference is, you get a better result for a language specific parsing.
+A class tag in css is different then in Javascript. Feel free to add more languages by creating more rules files and send me a PR.
