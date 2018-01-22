@@ -17,14 +17,14 @@
   "devDependencies": {
     "grunt": "1.0.1",
     "grunt-release": "0.14.0",
-    "inspect.js": "1.2.0",
-    "lagoon-reporter": "0.3.2",
+    "inspect.js": "1.9.0",
+    "lagoon-reporter": "0.3.4",
     "mocha": "^3.2.0"
   },
   "dependencies": {
     "fluf": "0.2.0",
-    "marked": "0.3.6",
-    "node-fl": "0.0.2"
+    "marked": "0.3.12",
+    "node-fl": "0.0.3"
   },
   "directories": {
     "example": "examples",
