@@ -1,15 +1,14 @@
 {
-    extends: "eslint:recommended",
+    "extends": "eslint:recommended",
     "env": {
         "node": true,
         "mocha": true,
         "es6": true
     },
     "rules": {
-        "no-console": 1,
-        "no-unused-vars": [2, {"vars": "all", "args": "none"}]
-    },
-    "globals": {
-        "expect": true
+        "no-var": "warn",
+        "no-console": "warn",
+        "no-unused-vars": "warn",
+        "no-useless-escape": "warn"
     }
 }
