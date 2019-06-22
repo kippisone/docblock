@@ -2,7 +2,7 @@
 
 var DocBlockParser = require('../lib/docBlockParser');
 var inspect = require('inspect.js');
-var fl = require('node-fl');
+var fs = require('fs');
 
 describe('Dockblock parser', function() {
   describe('stripBlockLines', function() {
@@ -39,7 +39,7 @@ describe('Dockblock parser', function() {
   describe('getLine', function() {
     it('Should strip soucecode', function() {
       var docBlock = new DocBlockParser();
-      var source = fl.read(__dirname + '/fixtures/banana.js');
+      var source = fs.readFileSync(__dirname + '/fixtures/banana.js', { encoding: 'utf8' } );
       docBlock.source = source;
       var line = docBlock.getLine(162);
 
@@ -293,8 +293,7 @@ describe('Dockblock parser', function() {
 
     beforeEach(function() {
       docblock = new DocBlockParser();
-      result = docblock.parse(fl.read(__dirname + '/fixtures/banana.js'), 'js');
-
+      result = docblock.parse(fs.readFileSync(__dirname + '/fixtures/banana.js', { encoding: 'utf8' }), 'js');
     });
 
     it('Should parse @module from banana.js', function() {
