@@ -1,0 +1,40 @@
+image: node:8
+stages:
+  - test
+  - publish
+
+.test: &test
+  stage: test
+  script:
+   - npm install
+   - npm run test
+
+Test Node 8:
+  image: node:8
+  <<: *test
+
+Test Node 9:
+  image: node:9
+  <<: *test
+
+Test Node 10:
+  image: node:10
+  <<: *test
+
+Test Node 11:
+  image: node:11
+  <<: *test
+
+Test Node 12:
+  image: node:12
+  <<: *test
+
+Publish:
+  stage: publish
+  only:
+    - /^v\d+\.\d+\.\d+$/
+  except:
+    - branches
+  script:
+    - echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" >> ~/.npmrc
+    - npm publish

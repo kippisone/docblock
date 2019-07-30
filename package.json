@@ -16,17 +16,14 @@
   "author": "Andi Heinkelein <andifeind@noname-media.com>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^6.0.0",
-    "grunt": "^1.0.4",
-    "grunt-release": "0.14.0",
+    "eslint": "^6.1.0",
     "inspect.js": "^1.11.8",
-    "lagoon-reporter": "^0.7.1",
-    "mocha": "^6.1.4"
+    "lagoon-reporter": "^0.7.4",
+    "mocha": "^6.2.0"
   },
   "dependencies": {
     "fluf": "0.2.0",
-    "marked": "^0.6.2",
-    "node-fl": "0.0.3"
+    "marked": "^0.7.0"
   },
   "directories": {
     "example": "examples",
