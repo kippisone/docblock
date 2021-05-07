@@ -16,14 +16,14 @@
   "author": "Andi Heinkelein <andifeind@noname-media.com>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^6.1.0",
-    "inspect.js": "^1.11.8",
-    "lagoon-reporter": "^0.7.4",
-    "mocha": "^6.2.0"
+    "eslint": "^7.25.0",
+    "inspect.js": "^1.12.4",
+    "lagoon-reporter": "^0.7.8",
+    "mocha": "^8.4.0"
   },
   "dependencies": {
     "fluf": "^0.2.1",
-    "marked": "^0.7.0"
+    "marked": "^2.0.3"
   },
   "directories": {
     "example": "examples",
