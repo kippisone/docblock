@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "fluf": "^0.2.1",
-    "marked": "^2.0.3"
+    "marked": "^4.0.10"
   },
   "directories": {
     "example": "examples",
